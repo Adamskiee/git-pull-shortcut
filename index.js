@@ -11,9 +11,12 @@ program
         const {repo} = options;
 
         spawn("git", ["branch", "main"]);
-        spawn("git", [`git remote add origin git@github.com:Adamskiee/${repo}`]);
+        const addRemote = spawn("git", ["remote", "add", "origin", `git@github.com:Adamskiee/${repo}.git`]);
         spawn("git", ["push", "origin", "main"]);
 
+        addRemote.stderr.on('data', (data) => {
+            console.log(`: ${data}`);
+        });
     });
 
 program.parse(process.argv);
